@@ -3,26 +3,41 @@
 
 using namespace std;
 
-class Solution {
+class Solution
+{
 public:
-    vector<int> productExceptSelf(vector<int>& nums) {
+    vector<int> productExceptSelf(vector<int> &nums)
+    {
         int size = nums.size();
 
-        int* arr1 = new int[size];
-        int* arr2 = new int[size];
-        arr1[0] = nums[0];
-        arr2[size-1] = nums[size-1];
-        for (int i = 1; i<size-1; i++) {
-            arr1[i]=arr1[i-1]*nums[i];
-            arr2[size-1-i] = arr2[size-i]*nums[size-i-1];
+        vector<int> res;
+        res.push_back(1);
+        for (int i = 1; i < nums.size(); i++)
+        {
+            res.push_back(res[i - 1] * nums[i - 1]);
         }
+        for (int i = nums.size() - 2; i >= 0; i--)
+        {
+            res[i] *= nums[i + 1];
+            nums[i] *= nums[i + 1];
+        }
+        return res;
 
-        nums[0] = arr2[1];
-        nums[size-1] = arr1[size-2];
-        for (int i = 1; i<size-1; i++) {
-            nums[i] = arr1[i-1]*arr2[i+1];
-        }
-        return nums;
+        // int* arr1 = new int[size];
+        // int* arr2 = new int[size];
+        // arr1[0] = nums[0];
+        // arr2[size-1] = nums[size-1];
+        // for (int i = 1; i<size-1; i++) {
+        //     arr1[i]=arr1[i-1]*nums[i];
+        //     arr2[size-1-i] = arr2[size-i]*nums[size-i-1];
+        // }
+
+        // nums[0] = arr2[1];
+        // nums[size-1] = arr1[size-2];
+        // for (int i = 1; i<size-1; i++) {
+        //     nums[i] = arr1[i-1]*arr2[i+1];
+        // }
+        // return nums;
     }
 };
 
